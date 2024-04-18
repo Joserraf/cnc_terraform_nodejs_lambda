@@ -26,7 +26,7 @@ resource "aws_lambda_function" "lambda" {
   source_code_hash               = filebase64sha256("${abspath(path.root)}/../../${var.zip_file_name == "" ? var.lambda_function_name : var.zip_file_name}.zip")
 
   vpc_config {
-    subnet_ids         = data.aws_subnet_ids.selected_subnets.ids
+    subnet_ids         = data.aws_subnets.private_subnets.ids
     security_group_ids = [aws_security_group.sg_lambda.id]
   }
 

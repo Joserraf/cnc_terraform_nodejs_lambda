@@ -1,7 +1,7 @@
 resource "aws_security_group" "sg_lambda" {
   name        = "${var.lambda_function_name}-sg"
   description = "Security group for the ${var.lambda_function_name}"
-  vpc_id      = data.aws_vpc.vpc[0].id
+  vpc_id      = data.aws_vpc.cnc_vpc.id
 
   egress {
     description = "MongoDB Atlas connectivity"
