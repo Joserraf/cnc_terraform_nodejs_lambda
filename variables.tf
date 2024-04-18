@@ -60,8 +60,8 @@ variable "lambda_layers" {
 }
 
 variable "lambda_layers_x86" {
-  type    = list(string)
-  default =       [
+  type = list(string)
+  default = [
     // see here for last version: https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-integration-lambda-extensions.html#ps-integration-lambda-extensions-add
     "arn:aws:lambda:eu-central-1:187925254637:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11",
     // see here for last version: https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-integration-lambda-extensions-versions.html#appconfig-integration-lambda-extensions-enabling-x86-64
@@ -72,8 +72,8 @@ variable "lambda_layers_x86" {
 }
 
 variable "lambda_layers_arm64" {
-  type    = list(string)
-  default =       [
+  type = list(string)
+  default = [
     // see here for last version: https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-integration-lambda-extensions.html#ps-integration-lambda-extensions-add
     "arn:aws:lambda:eu-central-1:187925254637:layer:AWS-Parameters-and-Secrets-Lambda-Extension-Arm64:11",
     // see here for last version: https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-integration-lambda-extensions-versions.html#appconfig-integration-lambda-extensions-enabling-ARM64

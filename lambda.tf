@@ -15,47 +15,45 @@ resource "aws_lambda_function" "lambda" {
   filename      = "${abspath(path.root)}/../../${var.zip_file_name == "" ? var.lambda_function_name : var.zip_file_name}.zip"
   function_name = var.lambda_function_name
   role          = var.instance_role_arn
-  memory_size   = var.memory_size
   handler       = "index.default"
-  reserved_concurrent_executions = var.lambda_reserved_concurrent_executions
-  source_code_hash = filebase64sha256("${abspath(path.root)}/../../${var.zip_file_name == "" ? var.lambda_function_name : var.zip_file_name}.zip")
+  runtime       = var.lambda_runtime
+  memory_size   = var.memory_size
+  timeout       = var.lambda_timeout_in_seconds
   publish       = true
-
-  runtime = var.lambda_runtime
   architectures = var.architectures
 
-  dynamic "tracing_config" {
-    for_each = var.tracing_enabled ? [1] : []
-    content {
-        mode = "Active"
-    }
+  reserved_concurrent_executions = var.lambda_reserved_concurrent_executions
+  source_code_hash               = filebase64sha256("${abspath(path.root)}/../../${var.zip_file_name == "" ? var.lambda_function_name : var.zip_file_name}.zip")
+
+  vpc_config {
+    subnet_ids         = data.aws_subnet_ids.selected_subnets.ids
+    security_group_ids = [aws_security_group.sg_lambda.id]
+  }
+
+  environment {
+    variables = merge(
+      var.environment_variables,
+      {
+        "NODE_OPTIONS" : "--enable-source-maps" # Helpful for debugging
+      }
+    )
+  }
+
+  tracing_config {
+    mode = var.tracing_enabled ? "Active" : "PassThrough"
   }
 
   layers = concat(
-      var.architectures[0] == "x86_64"? var.lambda_layers_x86: var.lambda_layers_arm64,
-      var.lambda_layers
-    )
-
-  dynamic "environment" {
-    for_each = local.environment_map[*]
-    content {
-      variables = environment.value
-    }
-  }
-
-  dynamic "vpc_config" {
-    for_each = length(var.environment) > 0 ? [var.environment] : []
-    content {
-      subnet_ids         = data.aws_subnets.private_subnets[0].ids
-      security_group_ids = [aws_security_group.sg_lambda[0].id]
-    }
-  }
-
-  tags = merge(
-    var.additional_tags
+    var.architectures[0] == "x86_64" ? var.lambda_layers_x86 : var.lambda_layers_arm64,
+    var.lambda_layers
   )
 
-  timeout = var.lambda_timeout_in_seconds
+  tags = merge(
+    var.additional_tags,
+    {
+      "Environment" : var.environment
+    }
+  )
 
   depends_on = [
     aws_cloudwatch_log_group.lambda_log_group,
