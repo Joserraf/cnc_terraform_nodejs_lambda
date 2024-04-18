@@ -24,10 +24,30 @@ resource "aws_lambda_function" "lambda" {
   runtime = var.lambda_runtime
   architectures = var.architectures
 
+  dynamic "tracing_config" {
+    for_each = var.tracing_enabled ? [1] : []
+    content {
+        mode = "Active"
+    }
+  }
+
+  layers = concat(
+      var.architectures[0] == "x86_64"? var.lambda_layers_x86: var.lambda_layers_arm64,
+      var.lambda_layers
+    )
+
   dynamic "environment" {
     for_each = local.environment_map[*]
     content {
       variables = environment.value
+    }
+  }
+
+  dynamic "vpc_config" {
+    for_each = length(var.environment) > 0 ? [var.environment] : []
+    content {
+      subnet_ids         = data.aws_subnets.private_subnets[0].ids
+      security_group_ids = [aws_security_group.sg_lambda[0].id]
     }
   }
 
