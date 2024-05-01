@@ -1,14 +1,6 @@
 resource "aws_cloudwatch_log_group" "lambda_log_group" {
-  count             = var.enabled ? 1 : 0
   retention_in_days = var.log_retention
   name              = "/aws/lambda/${var.lambda_function_name}"
-}
-
-locals {
-  environment_map = merge(
-    var.environment_variables,
-    { NODE_OPTIONS = "--enable-source-maps" } // This is important to have stack traces with typescript
-  )
 }
 
 resource "aws_lambda_function" "lambda" {
@@ -24,11 +16,6 @@ resource "aws_lambda_function" "lambda" {
 
   reserved_concurrent_executions = var.lambda_reserved_concurrent_executions
   source_code_hash               = filebase64sha256("${abspath(path.root)}/../../${var.zip_file_name == "" ? var.lambda_function_name : var.zip_file_name}.zip")
-
-  vpc_config {
-    subnet_ids         = data.aws_subnets.private_subnets.ids
-    security_group_ids = [aws_security_group.sg_lambda.id]
-  }
 
   environment {
     variables = merge(

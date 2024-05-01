@@ -42,12 +42,6 @@ variable "log_retention" {
   type        = string
 }
 
-variable "enabled" {
-  default     = true
-  type        = bool
-  description = "Workaround until count on modules work. ⚠️ Use only for testing purpose ⚠️"
-}
-
 variable "environment" {
   description = "Set this to the name of the vpc if a vpc_config for the Lambda is needed."
   default     = ""
@@ -89,8 +83,4 @@ variable "zip_file_name" {
 
 variable "tracing_enabled" {
   default = false
-}
-
-variable "MongoDB_Atlas_CIDR" {
-  default = "0.0.0.0/0"
 }
