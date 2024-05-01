@@ -8,7 +8,7 @@ resource "aws_security_group" "sg_lambda" {
     from_port   = 27017
     to_port     = 27017
     protocol    = "tcp"
-    cidr_blocks = ["<MongoDB_Atlas_CIDR>"] # TODO: Replace with actual CIDR of your MongoDB Atlas
+    cidr_blocks = [var.MongoDB_Atlas_CIDR]
   }
 
   #egress {

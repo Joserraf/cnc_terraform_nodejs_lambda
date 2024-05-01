@@ -90,3 +90,7 @@ variable "zip_file_name" {
 variable "tracing_enabled" {
   default = false
 }
+
+variable "MongoDB_Atlas_CIDR" {
+  default = "0.0.0.0/0"
+}
