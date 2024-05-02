@@ -56,24 +56,12 @@ variable "lambda_layers" {
 variable "lambda_layers_x86" {
   type = list(string)
   default = [
-    // see here for last version: https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-integration-lambda-extensions.html#ps-integration-lambda-extensions-add
-    "arn:aws:lambda:eu-central-1:187925254637:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11",
-    // see here for last version: https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-integration-lambda-extensions-versions.html#appconfig-integration-lambda-extensions-enabling-x86-64
-    "arn:aws:lambda:eu-central-1:066940009817:layer:AWS-AppConfig-Extension:93",
-    // see here for last version: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-extension-versionsx86-64.html
-    "arn:aws:lambda:eu-central-1:580247275435:layer:LambdaInsightsExtension:38"
   ]
 }
 
 variable "lambda_layers_arm64" {
   type = list(string)
   default = [
-    // see here for last version: https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-integration-lambda-extensions.html#ps-integration-lambda-extensions-add
-    "arn:aws:lambda:eu-central-1:187925254637:layer:AWS-Parameters-and-Secrets-Lambda-Extension-Arm64:11",
-    // see here for last version: https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-integration-lambda-extensions-versions.html#appconfig-integration-lambda-extensions-enabling-ARM64
-    "arn:aws:lambda:eu-central-1:066940009817:layer:AWS-AppConfig-Extension-Arm64:36",
-    // see here for last version: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-extension-versionsARM.html
-    "arn:aws:lambda:eu-central-1:580247275435:layer:LambdaInsightsExtension-Arm64:5"
   ]
 }
 
