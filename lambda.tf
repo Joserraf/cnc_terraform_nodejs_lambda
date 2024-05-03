@@ -22,6 +22,7 @@ resource "aws_lambda_function" "lambda" {
       var.environment_variables,
       {
         "NODE_OPTIONS" : "--enable-source-maps" # Helpful for debugging
+        "NODE_ENV" : var.environment
       }
     )
   }
