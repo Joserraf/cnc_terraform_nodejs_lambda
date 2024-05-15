@@ -19,12 +19,12 @@ variable "lambda_timeout_in_seconds" {
 
 variable "lambda_runtime" {
   type    = string
-  default = "nodejs16.x"
+  default = "nodejs20.x"
 }
 
 variable "architectures" {
   type    = list(string)
-  default = ["x86_64"]
+  default = ["arm64"]
 }
 
 variable "lambda_reserved_concurrent_executions" {
@@ -36,6 +36,7 @@ variable "memory_size" {
   description = "lambda memory size"
   default     = 1024
 }
+
 variable "log_retention" {
   description = "log retention in cloudwatch in days"
   default     = "14"
@@ -51,12 +52,6 @@ variable "environment" {
 variable "lambda_layers" {
   type    = list(string)
   default = [""]
-}
-
-variable "lambda_layers_x86" {
-  type = list(string)
-  default = [
-  ]
 }
 
 variable "lambda_layers_arm64" {

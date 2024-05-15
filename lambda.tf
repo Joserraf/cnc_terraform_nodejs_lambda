@@ -32,7 +32,7 @@ resource "aws_lambda_function" "lambda" {
   }
 
   layers = concat(
-    var.architectures[0] == "x86_64" ? var.lambda_layers_x86 : var.lambda_layers_arm64,
+    var.lambda_layers_arm64,
     var.lambda_layers
   )
 
